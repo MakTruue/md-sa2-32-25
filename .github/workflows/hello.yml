@@ -2,8 +2,8 @@ name: Hello GitHub Actions!
 on:
   push:
     branches: [master]
-  path:
-    - "02.Git/**"
+      path:
+        - "02.Git/**"
 jobs:
   run-helloGA:
     runs-on: ubuntu-latest
