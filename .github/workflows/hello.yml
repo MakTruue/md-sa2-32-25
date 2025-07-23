@@ -13,4 +13,4 @@ jobs:
        - name: checkout
          uses: actions/checkout@v4
        - name: Run script PY
-         run: python3 md-sa2-32-25/02.Git/helloGA.py
+         run: python3 md-sa2-32-25/helloGA.py
