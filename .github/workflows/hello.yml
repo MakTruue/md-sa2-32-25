@@ -2,7 +2,7 @@ name: Hello GitHub Actions!
 on:
   push:
     branches: [master]
-      path:
+      paths:
         - "02.Git/**"
 jobs:
   run-helloGA:
