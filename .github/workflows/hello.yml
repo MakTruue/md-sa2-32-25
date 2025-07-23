@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Install python
-         run: sudo apt update && sudo apt install -y python3
-         run: echo "python has been installed!"
+         run: |
+           sudo apt update && sudo apt install -y python3
+           echo "python has been installed!"
        - name: checkout
          uses: actions/checkout@v4
        - name: Run script PY
