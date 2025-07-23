@@ -10,7 +10,9 @@ jobs:
          run: |
            sudo apt update && sudo apt install -y python3
            echo "python has been installed!"
+       - name: pwd
+         run: pwd
        - name: checkout
          uses: actions/checkout@v4
        - name: Run script PY
-         run: python3 md-sa2-32-25/02.Git/helloGA.py
+         run: python3 helloGA.py
