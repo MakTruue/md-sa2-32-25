@@ -1,7 +1,8 @@
 name: Minikube Cluster Setup
 
 on:
-    - pull_request
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   setup-minikube:
