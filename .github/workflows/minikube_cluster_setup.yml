@@ -13,11 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Устанавливаем Minikube
+      # 2. Устанавливаем Minikube (без VirtualBox)
       - name: Install Minikube
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y curl apt-transport-https virtualbox virtualbox-ext-pack
           curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           chmod +x minikube
           sudo mv minikube /usr/local/bin/
@@ -32,6 +30,7 @@ jobs:
       # 4. Запускаем Minikube в режиме docker driver
       - name: Start Minikube
         run: |
+          sudo apt-get update && sudo apt-get install -y conntrack
           minikube start --driver=docker
 
       # 5. Проверяем статус кластера
