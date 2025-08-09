@@ -3,7 +3,7 @@ name: Buidl and public Docker img
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
