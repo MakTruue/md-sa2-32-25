@@ -1,9 +1,9 @@
-name: Buidl and public Docker img
+name: B and P_DI
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -29,18 +29,14 @@ jobs:
 
     - name: Уведомление в Slack об успешной сборке
       if: success()
-      uses: slackapi/slack-github-action@v1.23.0
-      with:
-        channel-id: 'C099BJHJZT5'
-        slack-message: ':white_check_mark: Docker образ mygoapp:latest успешно собран и запушен!'
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{"text":":white_check_mark: Docker образ mygoapp:latest успешно собран и запушен!"}' \
+        ${{ secrets.SLACK_WEBHOOK_URL }}
 
     - name: Уведомление в Slack при ошибке сборки
       if: failure()
-      uses: slackapi/slack-github-action@v1.23.0
-      with:
-        channel-id: 'C099BJHJZT5'
-        slack-message: ':x: Сборка или пуш Docker образа mygoapp:latest завершились с ошибкой!'
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{"text":":x: Сборка или пуш Docker образа mygoapp:latest завершились с ошибкой!"}' \
+        ${{ secrets.SLACK_WEBHOOK_URL }}
