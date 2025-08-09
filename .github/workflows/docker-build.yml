@@ -1,4 +1,4 @@
-name: Сборка и публикация Docker образа
+name: Buidl and public Docker img
 
 on:
   push:
