@@ -3,7 +3,7 @@ name: B and P_DI
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
