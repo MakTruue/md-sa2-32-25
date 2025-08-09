@@ -1,0 +1,46 @@
+name: Сборка и публикация Docker образа
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Клонирование репозитория
+      uses: actions/checkout@v3
+
+    - name: Логин в Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Сборка и пуш Docker образа
+      id: docker_build
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: maktrue/mygoapp:latest
+
+    - name: Уведомление в Slack об успешной сборке
+      if: success()
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        channel-id: 'C099BJHJZT5'
+        slack-message: ':white_check_mark: Docker образ mygoapp:latest успешно собран и запушен!'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+    - name: Уведомление в Slack при ошибке сборки
+      if: failure()
+      uses: slackapi/slack-github-action@v1.23.0
+      with:
+        channel-id: 'C099BJHJZT5'
+        slack-message: ':x: Сборка или пуш Docker образа mygoapp:latest завершились с ошибкой!'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
