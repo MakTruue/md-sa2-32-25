@@ -12,18 +12,18 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Check crashed pods on k3s cluster
-  run: |
-    crashed_pods=$(kubectl get pods -A --context=k3s \
-      --field-selector=status.phase!=Running,status.phase!=Succeeded \
-      -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
+        run: |
+          crashed_pods=$(kubectl get pods -A --context=k3s \
+            --field-selector=status.phase!=Running,status.phase!=Succeeded \
+            -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
 
-    if [ -n "$crashed_pods" ]; then
-      count=$(echo "$crashed_pods" | wc -l)
-      echo "🚨 Found $count crashed pods in k3s cluster:"
-      echo "$crashed_pods"
-      curl -X POST -H 'Content-type: application/json' \
-        --data "{\"text\":\"🚨 $count crashed pods in k3s cluster:\n$crashed_pods\"}" \
-        $SLACK_WEBHOOK_URL
-    else
-      echo "✅ No crashed pods found in k3s cluster."
-    fi
+          if [ -n "$crashed_pods" ]; then
+            count=$(echo "$crashed_pods" | wc -l)
+            echo "🚨 Found $count crashed pods in k3s cluster:"
+            echo "$crashed_pods"
+            curl -X POST -H 'Content-type: application/json' \
+              --data "{\"text\":\"🚨 $count crashed pods in k3s cluster:\n$crashed_pods\"}" \
+              $SLACK_WEBHOOK_URL
+          else
+            echo "✅ No crashed pods found in k3s cluster."
+          fi
