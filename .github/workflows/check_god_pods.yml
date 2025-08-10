@@ -1,0 +1,22 @@
+name: Check pods on private clusters
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  check_pods:
+    runs-on: self-hosted
+
+    steps:
+      - name: Check pods on k3s cluster
+          run: |
+          running_pods=$(kubectl get pods -A --context=k3s --field-selector=status.phase=Running -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
+          echo "Running pods in k3s:"
+          echo "$running_pods"
+
+          if [ -n "$running_pods" ]; then
+            message="✅ Running pods in k3s cluster:\n$running_pods"
+            curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$message\"}" $SLACK_WEBHOOK_URL
+          fi
