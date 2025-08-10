@@ -11,10 +11,10 @@ jobs:
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-      - name: Check pods on k3s cluster
+      - name: Check pods on k8s cluster
         run: |
-          running_pods=$(kubectl get pods -A --context=k3s --field-selector=status.phase=Running -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
-          echo "Running pods in k3s:"
+          running_pods=$(kubectl get pods -A --context=k8s --field-selector=status.phase=Running -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
+          echo "Running pods in k8s:"
           echo "$running_pods"
 
           if [ -n "$running_pods" ]; then
