@@ -10,8 +10,10 @@ jobs:
     runs-on: self-hosted
 
     steps:
+
       - name: Check pods on k3s cluster
-          run: |
+
+        run: |
           running_pods=$(kubectl get pods -A --context=k3s --field-selector=status.phase=Running -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{"\n"}{end}')
           echo "Running pods in k3s:"
           echo "$running_pods"
