@@ -13,10 +13,14 @@ jobs:
     steps:
       - name: Check crashed pods on k3s cluster
         run: |
-          crash_pods=$(kubectl get pods -A --context='k3s' | awk 'NR!=1 {print $4}' | grep -v 'Running' | wc -l)
-          echo "Crashed pods in k3s: $crash_pods"
-          if [ "$crash_pods" -ne 0 ]; then
-            curl -X POST -H 'Content-type: application/json' \
-                 --data "{\"text\":\"🚨 $crash_pods crashed pods in k3s cluster.\"}" \
-                 "$SLACK_WEBHOOK_URL"
+
+          crashed_pods_count=$(kubectl get pods -A --context='k3s' | awk 'NR!=1 {print $4}' | grep -v 'Running' | wc -l)
+          crashed_pods_list=$(kubectl get pods -A --context='k3s' | awk 'NR!=1 && $4 != "Running" {print $1"/"$2}')
+          echo "Crashed pods in k3s: $crashed_pods_count"
+          echo "$crashed_pods_list"
+          if [ "$crashed_pods_count" -ne 0 ]; then
+            message="🚨 $crashed_pods_count crashed pods in k3s cluster:\n$crashed_pods_list"
+            # Экранируем переносы, чтобы корректно отправить в JSON
+            message_json=$(echo -e "$message" | jq -Rs .)
+            curl -X POST -H 'Content-type: application/json' --data "{\"text\":$message_json}" "$SLACK_WEBHOOK_URL"
           fi
