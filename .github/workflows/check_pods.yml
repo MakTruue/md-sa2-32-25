@@ -1,4 +1,4 @@
-name: Check pods on private clusters
+name: Check err pods on private clusters
 
 on:
   push:
