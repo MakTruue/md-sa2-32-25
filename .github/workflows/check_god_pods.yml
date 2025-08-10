@@ -18,6 +18,6 @@ jobs:
           echo "$running_pods"
 
           if [ -n "$running_pods" ]; then
-            message="✅ Running pods in k3s cluster:\n$running_pods"
+            message="✅ Running pods in k8s cluster:\n$running_pods"
             curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$message\"}" $SLACK_WEBHOOK_URL
           fi
