@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  jenkins:
+  - apiVersion: v2
+    appVersion: true.devops_32
+    created: "2025-08-24T06:42:59.87108449Z"
+    description: Helm chart for Jenkins CI/CD
+    digest: b0bf3d01381de5323c115cc702f22846f376fa5f3d3ac1d614d545461f6d857d
+    name: jenkins
+    type: application
+    urls:
+    - https://MakTruue.github.io/md-sa2-32-25/jenkins-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-08-24T06:42:59.868544473Z"
